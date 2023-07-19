@@ -1064,6 +1064,10 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap)
     qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
     qemu_fdt_setprop(ms->fdt, "/chosen", "rng-seed",
                      rng_seed, sizeof(rng_seed));
+    qemu_fdt_add_subnode(ms->fdt, "/chosen/domain-cfg");
+    qemu_fdt_setprop_string(ms->fdt, "/chosen/domain-cfg", "compatible",
+            "opensbi,domain,config");
+    qemu_fdt_setprop(ms->fdt, "/chosen/domain-cfg", "system-suspend-test", NULL, 0);
 }
 
 static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
